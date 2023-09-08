@@ -20,7 +20,7 @@
                 </td>
                 <td>{{ $student->name }}</td>
                 <td><input class="form-check-input" type="checkbox" name="students[]" value="{{ $student->id }}" 
-                  id="check-{{ $student->id }}" }} checked></td>
+                  id="check-{{ $student->id }}"  checked></td>
               </tr>
               @endforeach
           @endif
