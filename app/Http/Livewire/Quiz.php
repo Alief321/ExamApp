@@ -24,7 +24,8 @@ class Quiz extends Component
     public $selectedAnswers = [];
     public $essayAnswers = [];
     public $total_question;
-    protected $listeners = ['endTimer' => 'submitAnswers'];
+    public $receivedData;
+    protected $listeners = ['endTimer' => 'submitAnswers', 'myAction' => 'SimpanEssay',];
 
     public function mount($id)
     {
@@ -56,6 +57,14 @@ class Quiz extends Component
         $this->essayAnswers[$questionId] = $essay;
     }
 
+    public function SimpanEssay($jsVariable)
+    {
+        // $jsVariable contains the data sent from JavaScript
+        $this->receivedData = $jsVariable;
+
+        // You can perform any actions specific to the Livewire method here
+    }
+
     public function submitAnswers()
     {
         if(!empty($this->selectedAnswers))
@@ -78,6 +87,7 @@ class Quiz extends Component
         
         $selectedAnswers_str = json_encode($this->selectedAnswers);
         $essayAnswers_str = json_encode($this->essayAnswers);
+        // dd($essayAnswers_str);
         $this->user_id = Auth()->id();
         $user = User::findOrFail($this->user_id);
         $user_exam = $user->whereHas('exams', function (Builder $query) {

@@ -1,3 +1,4 @@
+
 <div class="card">
     <div class="card-header">
         <div class="row">
@@ -47,16 +48,18 @@
             wire:click="answers({{ $question['id'] }}, '{{ $question['option_E'] }}')"><p class="text-left"><b> E. {{ $question['option_E'] }} </b></p></button>
         </div>
         <!-- Tombol "Jawaban Teks" -->
+        <button hidden id="hidden-button" wire:click="essay_answers({{ $question['id']}},'{{ $receivedData }}' )"></button>
         <div>
-            <button class="btn btn-primary mt-3" id="toggle-text-answer">Jawaban Teks</button>
+            <button type="button" class="btn btn-primary mt-3" id="toggle-text-answer">Jawaban Teks</button>
         </div>
         <!-- Jawaban Teks (Textarea) - Awalnya disembunyikan -->
         <div class="card mt-3" style="display: none;" id="text-answer">
             <div class="card-body">
                 <p>Jawaban Teks:</p>
-                <textarea name="essay" cols="30" rows="30" class="form-control" style="height:200px">{{ old('essay') }}</textarea>
+                <textarea id="essay" name="essay" cols="30" rows="30" class="form-control" style="height:200px">{{ old('essay') }}</textarea>
             </div>
         </div>
+        <button id="my-button" class="hidden">Simpan jawaban essay</button>
     </div>
     @endforeach
 
@@ -73,7 +76,7 @@
     </div>
     <div class="card-footer">
         @if ($questions->currentPage() == $questions->lastPage())
-            <button wire:click="submitAnswers" class="btn btn-primary btn-lg btn-block">Submit</button>
+            <button id="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
         @endif
     </div>
 </div>
@@ -116,11 +119,30 @@
 
     // Fungsi untuk menampilkan atau menyembunyikan jawaban teks saat tombol diklik
     document.getElementById("toggle-text-answer").addEventListener("click", function() {
-            var textAnswer = document.getElementById("text-answer");
+            let textAnswer = document.getElementById("text-answer");
+
             if (textAnswer.style.display === "none") {
                 textAnswer.style.display = "block";
             } else {
                 textAnswer.style.display = "none";
             }
         });
+
+    document.getElementById('submit').addEventListener('click', function() {
+        let hiddenbutton = document.getElementById("hidden-button");
+        document.getElementById('my-button').click();
+        document.getElementById('my-button').click();
+        hiddenbutton.click();
+        @this.call('submitAnswers');
+    })
+    
+        // Add an event listener to the button
+    document.getElementById('my-button').addEventListener('click', function() {
+        let myVariable = document.getElementById("essay").value;
+        let hiddenbutton = document.getElementById("hidden-button");
+        // Call the Livewire method and pass the JavaScript variable as a parameter
+        // Livewire.emit('myAction', myVariable);
+        @this.call('SimpanEssay', myVariable);
+        hiddenbutton.click();
+    });
 </script>
