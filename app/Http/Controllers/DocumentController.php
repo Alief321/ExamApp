@@ -74,7 +74,7 @@ class DocumentController extends Controller
     public function destroy($id)
     {
         $document = Document::findOrFail($id);
-        $link= Storage::disk('local')->delete('public/documents/'.$document->link);
+        $link= Storage::disk('local')->delete('public/documents/' . $document->link);
         $document->delete();
 
         if($document){

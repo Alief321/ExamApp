@@ -74,7 +74,7 @@ class AudioController extends Controller
     public function destroy($id)
     {
         $audio = Audio::findOrFail($id);
-        $link= Storage::disk('local')->delete('public/audios/'.$audio->link);
+        $link= Storage::disk('local')->delete('public/audios/' . $audio->link);
         $audio->delete();
 
         if($audio){

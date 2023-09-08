@@ -46,11 +46,25 @@
             <button type="button" class="{{ in_array($question['id'].'-'.$question['option_E'], $selectedAnswers) ? 'btn btn-success border border-secondary rounded' : 'btn btn-light border border-secondary rounded' }}"
             wire:click="answers({{ $question['id'] }}, '{{ $question['option_E'] }}')"><p class="text-left"><b> E. {{ $question['option_E'] }} </b></p></button>
         </div>
-        
+        <!-- Tombol "Jawaban Teks" -->
+        <div>
+            <button class="btn btn-primary mt-3" id="toggle-text-answer">Jawaban Teks</button>
+        </div>
+        <!-- Jawaban Teks (Textarea) - Awalnya disembunyikan -->
+        <div class="card mt-3" style="display: none;" id="text-answer">
+            <div class="card-body">
+                <p>Jawaban Teks:</p>
+                <textarea name="essay" cols="30" rows="30" class="form-control" style="height:200px">{{ old('essay') }}</textarea>
+            </div>
+        </div>
     </div>
     @endforeach
 
     {{-- @foreach ($selectedAnswers as $item)
+        {{ $item }}
+    @endforeach --}}
+
+    {{-- @foreach ($essayAnswers as $item)
         {{ $item }}
     @endforeach --}}
     
@@ -99,4 +113,14 @@
         Livewire.emit('endTimer');
     }
     }, 1000);
+
+    // Fungsi untuk menampilkan atau menyembunyikan jawaban teks saat tombol diklik
+    document.getElementById("toggle-text-answer").addEventListener("click", function() {
+            var textAnswer = document.getElementById("text-answer");
+            if (textAnswer.style.display === "none") {
+                textAnswer.style.display = "block";
+            } else {
+                textAnswer.style.display = "none";
+            }
+        });
 </script>

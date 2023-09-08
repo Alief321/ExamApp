@@ -79,7 +79,15 @@
                                         @endcan
                                         
                                         @hasanyrole('teacher|admin')
-                                        <a href="{{ route('exams.student', $exam->id) }}" class="btn btn-sm btn-primary">
+                                        @php
+                                            // Convert $exam->end to Carbon 
+                                            $carbonExamEnd = \Carbon\Carbon::parse($exam->end);
+                                            // Check if Exam Finish
+                                            $isExamFinish = now()->greaterThan($carbonExamEnd);
+                                            // Define Route Name
+                                            $routeName = $isExamFinish ? 'exams.scoreboard' : 'exams.student';
+                                        @endphp
+                                        <a href="{{ route($routeName, $exam->id) }}" class="btn btn-sm btn-primary">
                                             <i class="fa fa-door-open"></i>
                                         </a>
                                         @endhasanyrole

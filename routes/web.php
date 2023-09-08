@@ -89,8 +89,14 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('exams', ExamController::class);
     Route::get('/exams/result/{score}/{user_id}/{exam_id}', [ExamController::class, 'result'])->name('exams.result');
+    Route::get('/exams/scoreboard/{exam}', [ExamController::class, 'scoreboard'])->name('exams.scoreboard');
     Route::get('/exams/start/{id}', [ExamController::class, 'start'])->name('exams.start');
     Route::get('exams/student/{id}', [ExamController::class, 'student'])->name('exams.student');
     Route::put('exams/assign/{id}', [ExamController::class, 'assign'])->name('exams.assign');
     Route::get('/exams/review/{user_id}/{exam_id}', [ExamController::class, 'review'])->name('exams.review');
+
+    //exam_user
+    Route::resource('exam_user', QuestionController::class)->except([
+        'show'
+    ]);
 });

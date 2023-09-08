@@ -22,6 +22,7 @@ class Quiz extends Component
     public $exam_id;
     public $user_id;
     public $selectedAnswers = [];
+    public $essayAnswers = [];
     public $total_question;
     protected $listeners = ['endTimer' => 'submitAnswers'];
 
@@ -50,6 +51,11 @@ class Quiz extends Component
         $this->selectedAnswers[$questionId] = $questionId.'-'.$option;
     }
 
+    public function essay_answers($questionId, $essay)
+    {
+        $this->essayAnswers[$questionId] = $essay;
+    }
+
     public function submitAnswers()
     {
         if(!empty($this->selectedAnswers))
@@ -71,6 +77,7 @@ class Quiz extends Component
         }
         
         $selectedAnswers_str = json_encode($this->selectedAnswers);
+        $essayAnswers_str = json_encode($this->essayAnswers);
         $this->user_id = Auth()->id();
         $user = User::findOrFail($this->user_id);
         $user_exam = $user->whereHas('exams', function (Builder $query) {
@@ -78,9 +85,9 @@ class Quiz extends Component
         })->count();
         if($user_exam == 0)
         {
-            $user->exams()->attach($this->exam_id, ['history_answer' => $selectedAnswers_str, 'score' => $score]);
+            $user->exams()->attach($this->exam_id, ['history_answer' => $selectedAnswers_str, 'essay' => $essayAnswers_str , 'score' => $score]);
         } else{
-            $user->exams()->updateExistingPivot($this->exam_id, ['history_answer' => $selectedAnswers_str, 'score' => $score]);
+            $user->exams()->updateExistingPivot($this->exam_id, ['history_answer' => $selectedAnswers_str, 'essay' => $essayAnswers_str ,'score' => $score]);
         }
         
         return redirect()->route('exams.result', [$score, $this->user_id, $this->exam_id]);

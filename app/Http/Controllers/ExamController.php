@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Livewire\Student;
 use Carbon\Carbon;
 use App\Models\Exam;
 use App\Models\User;
@@ -222,5 +223,17 @@ class ExamController extends Controller
     public function review($userId, $examId)
     {
         return view('exams.review', compact('userId', 'examId'));
+    }
+    
+    public function scoreboard(Exam $exam)
+    {
+        $students = $exam->users()->whereHas('roles', function ($query) {
+            $query->where('name', 'student');
+        })->paginate(10);
+
+        return view('exams.scoreboard', [
+            'exam' => $exam->loadMissing('users'),
+            'students' => $students
+        ]);
     }
 }

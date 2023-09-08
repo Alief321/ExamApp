@@ -87,8 +87,8 @@
                                     <th scope="row" style="text-align: center">{{ ++$no + ($videos->currentPage()-1) * $videos->perPage() }}</th>
                                     <td>
                                         <video width="160" height="120" controls>
-                                            <source src="{{ Storage::url('public/videos/'.$video->link) }}" type="video/mp4">
-                                            <source src="{{ Storage::url('public/videos/'.$video->link) }}" type="video/mpeg">
+                                            <source src="{{ Storage::url('public/videos/' . $video->link) }}" type="video/mp4">
+                                            <source src="{{ Storage::url('public/videos/' . $video->link) }}" type="video/mpeg">
                                         </video>
                                     </td>
                                     <td>{{ $video->title }}</td>

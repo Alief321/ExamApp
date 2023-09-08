@@ -31,6 +31,7 @@ class CreateExamUserTable extends Migration
             $table->foreignId('user_id');
             $table->string('history_answer')->default('');
             $table->double('score')->default(0);
+            $table->string('essay')->default('');
             $table->timestamps();
         });
     }

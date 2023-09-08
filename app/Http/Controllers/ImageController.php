@@ -74,7 +74,7 @@ class ImageController extends Controller
     public function destroy($id)
     {
         $image = Image::findOrFail($id);
-        $link= Storage::disk('local')->delete('public/images/'.$image->link);
+        $link= Storage::disk('local')->delete('public/images/' . $image->link);
         $image->delete();
 
         if($image){
