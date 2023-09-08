@@ -17,7 +17,7 @@ class Exam extends Model
     protected $guarded = [];
 
     public function users(){
-        return $this->belongsToMany(User::class)->withPivot('history_answer', 'score')->withTimestamps();
+        return $this->belongsToMany(User::class)->withPivot('history_answer', 'score', 'essay')->withTimestamps();
     }
 
     public function questions(){
