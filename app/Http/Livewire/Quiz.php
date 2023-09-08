@@ -83,7 +83,7 @@ class Quiz extends Component
         }else{
             $score = 0;
             foreach($this->essayAnswers as $key => $value){
-                if (Question::findOrFail($key)->answer == $this->receivedData) {
+                if (Question::findOrFail($key)->answer == $value) {
                     $score = $score + $bobot;
                 }
             }
