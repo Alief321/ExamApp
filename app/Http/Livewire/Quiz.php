@@ -67,22 +67,26 @@ class Quiz extends Component
 
     public function submitAnswers()
     {
+        $bobot = 100 / $this->total_question;
         if(!empty($this->selectedAnswers))
         {
-            
             $score = 0;
             foreach($this->selectedAnswers as $key => $value)
             {
                 $userAnswer = "";
                 $rightAnswer = Question::findOrFail($key)->answer;
                 $userAnswer = substr($value, strpos($value,'-')+1);
-                $bobot = 100 / $this->total_question;
                 if($userAnswer == $rightAnswer){
                     $score = $score + $bobot;
                 }
             }
         }else{
             $score = 0;
+            foreach($this->essayAnswers as $key => $value){
+                if (Question::findOrFail($key)->answer == $this->receivedData) {
+                    $score = $score + $bobot;
+                }
+            }
         }
         
         $selectedAnswers_str = json_encode($this->selectedAnswers);
