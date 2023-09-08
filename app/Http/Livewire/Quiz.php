@@ -87,7 +87,7 @@ class Quiz extends Component
         
         $selectedAnswers_str = json_encode($this->selectedAnswers);
         $essayAnswers_str = json_encode($this->essayAnswers);
-        dd($essayAnswers_str);
+        // dd($essayAnswers_str);
         $this->user_id = Auth()->id();
         $user = User::findOrFail($this->user_id);
         $user_exam = $user->whereHas('exams', function (Builder $query) {
