@@ -31,15 +31,12 @@
                                 </thead>
                                 <tbody>
                                 @foreach ($students as $no => $student)
-                                    @php
-                                        // dd($student)
-                                    @endphp
                                     <tr>
                                         <th scope="row" style="text-align: center">{{ ++$no + ($students->currentPage()-1) * $students->perPage() }}</th>
                                         <td>{{ $student->name }}</td>
                                         <td>{{ $student->email }}</td>
                                         <td>{{ $student->pivot->score }}</td>
-                                        <td>{{ $student->pivot->essay}}</td>
+                                        <td>{{ $student->essay}}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>
