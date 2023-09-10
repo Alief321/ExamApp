@@ -30,7 +30,7 @@
             @elseif($question['image_id'])
             <img src="{{ Storage::url('public/images/'.$image->getLink($question['image_id'])) }}" style="width: 600px">
             @else
-                NO
+                
             @endif
         <br>
 
@@ -46,23 +46,26 @@
                 wire:click="answers({{ $question['id'] }}, '{{ $question['option_C'] }}')"><p class="text-left"><b> C. {{ $question['option_C'] }} </b></p></button>
                 <button type="button" class="{{ in_array($question['id'].'-'.$question['option_D'], $selectedAnswers) ? 'btn btn-success border border-secondary rounded' : 'btn btn-light border border-secondary rounded' }}"
                 wire:click="answers({{ $question['id'] }}, '{{ $question['option_D'] }}')"><p class="text-left"><b> D. {{ $question['option_D'] }} </b></p></button>
-                <button type="button" class="{{ in_array($question['id'].'-'.$question['option_E'], $selectedAnswers) ? 'btn btn-success border border-secondary rounded' : 'btn btn-light border border-secondary rounded' }}"
-                wire:click="answers({{ $question['id'] }}, '{{ $question['option_E'] }}')"><p class="text-left"><b> E. {{ $question['option_E'] }} </b></p></button>
+                
+                {{-- Jika ada opsi E --}}
+                @if ($question->option_E != NULL)    
+                    <button type="button" class="{{ in_array($question['id'].'-'.$question['option_E'], $selectedAnswers) ? 'btn btn-success border border-secondary rounded' : 'btn btn-light border border-secondary rounded' }}"
+                    wire:click="answers({{ $question['id'] }}, '{{ $question['option_E'] }}')"><p class="text-left"><b> E. {{ $question['option_E'] }} </b></p></button>
+                @endif
             </div>
         @elseif($question->type == "Uraian")
                 <!-- Tombol "Jawaban Teks" -->
                 <button hidden id="hidden-button" wire:click="essay_answers({{ $question['id']}},'{{ $receivedData }}' )"></button>
-                <div>
+                {{-- <div>
                     <button type="button" class="btn btn-primary mt-3" id="toggle-text-answer">Jawaban Teks</button>
-                </div>
-                <!-- Jawaban Teks (Textarea) - Awalnya disembunyikan -->
-                <div class="card mt-3" style="display: none;" id="text-answer">
+                </div> --}}
+                <div class="card mt-3" id="text-answer">
                     <div class="card-body">
                         <p>Jawaban Teks:</p>
                         <textarea id="essay" name="essay" cols="30" rows="30" class="form-control" style="height:200px"></textarea>
                     </div>
                 </div>
-                <button id="my-button" class="hidden">Simpan jawaban essay</button>
+                <button id="my-button" class="btn btn-primary mt-3">Simpan jawaban essay</button>
                 @endif
             </div>
     @endforeach
@@ -122,16 +125,16 @@
     }
     }, 1000);
 
-    // Fungsi untuk menampilkan atau menyembunyikan jawaban teks saat tombol diklik
-    document.getElementById("toggle-text-answer").addEventListener("click", function() {
-            let textAnswer = document.getElementById("text-answer");
+    // // Fungsi untuk menampilkan atau menyembunyikan jawaban teks saat tombol diklik
+    // document.getElementById("toggle-text-answer").addEventListener("click", function() {
+    //         let textAnswer = document.getElementById("text-answer");
 
-            if (textAnswer.style.display === "none") {
-                textAnswer.style.display = "block";
-            } else {
-                textAnswer.style.display = "none";
-            }
-        });
+    //         if (textAnswer.style.display === "none") {
+    //             textAnswer.style.display = "block";
+    //         } else {
+    //             textAnswer.style.display = "none";
+    //         }
+    //     });
 
     document.getElementById('submit').addEventListener('click', function() {
         let hiddenbutton = document.getElementById("hidden-button");
