@@ -39,16 +39,16 @@
                             @enderror
                         </div>
 
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label>TOTAL QUESTION</label>
-                            <input type="number" name="total_question" value="{{ old('total_question') }}" class="form-control" >
+                            <input type="number" name="total_question" value="{{ $count }}" class="form-control" >
 
                             @error('total_question')
                             <div class="invalid-feedback" style="display: block">
                                 {{ $message }}
                             </div>
                             @enderror
-                        </div>
+                        </div> --}}
 
                         <div class="form-group">
                             <label>START</label>
@@ -74,6 +74,16 @@
 
                         <livewire:question-checklist />
 
+                        {{-- <div class="form-group d-none">
+                                <label>TOTAL QUESTION</label>
+                                <input type="number" name="total_question" value="{{ $count }}" class="form-control" >
+
+                                @error('total_question')
+                                <div class="invalid-feedback" style="display: block">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                        </div> --}}
 
                         <button class="btn btn-primary mr-1 btn-submit" type="submit"><i class="fa fa-paper-plane"></i>
                             SIMPAN</button>

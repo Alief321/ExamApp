@@ -55,6 +55,7 @@ class Quiz extends Component
     public function essay_answers($questionId, $essay)
     {
         $this->essayAnswers[$questionId] = $essay;
+        dd($questionId, ':', $essay);
     }
 
     public function SimpanEssay($jsVariable)
@@ -82,9 +83,11 @@ class Quiz extends Component
             }
         }else{
             $score = 0;
-            foreach($this->essayAnswers as $key => $value){
-                if (Question::findOrFail($key)->answer == $value) {
-                    $score = $score + $bobot;
+            if(!empty($this->essayAnswers)){
+                foreach($this->essayAnswers as $key => $value){
+                    if (Question::findOrFail($key)->answer == $value) {
+                        $score = $score + $bobot;
+                    }
                 }
             }
         }

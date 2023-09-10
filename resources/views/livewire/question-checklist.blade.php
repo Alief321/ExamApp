@@ -14,6 +14,10 @@
         </thead>
         <tbody>
         @if (isset($questionsAll))
+            @php
+                $count = $questionsAll->count();
+            @endphp
+
             @foreach ($questionsAll as $question)
             <tr>
               <td>

@@ -53,19 +53,18 @@
                     wire:click="answers({{ $question['id'] }}, '{{ $question['option_E'] }}')"><p class="text-left"><b> E. {{ $question['option_E'] }} </b></p></button>
                 @endif
             </div>
-        @elseif($question->type == "Uraian")
+            @elseif($question->type == "Uraian")
                 <!-- Tombol "Jawaban Teks" -->
-                <button hidden id="hidden-button" wire:click="essay_answers({{ $question['id']}},'{{ $receivedData }}' )"></button>
                 {{-- <div>
                     <button type="button" class="btn btn-primary mt-3" id="toggle-text-answer">Jawaban Teks</button>
                 </div> --}}
                 <div class="card mt-3" id="text-answer">
                     <div class="card-body">
                         <p>Jawaban Teks:</p>
-                        <textarea id="essay" name="essay" cols="30" rows="30" class="form-control" style="height:200px"></textarea>
+                        <textarea id="essay" name="essay" cols="30" rows="30" class="form-control" style="height:200px" wire:keydown="essay_answers({{ $question['id'] }}, 'ffgfgfggfgfg')">{{ old('essay') }}</textarea>
                     </div>
                 </div>
-                <button id="my-button" class="btn btn-primary mt-3">Simpan jawaban essay</button>
+                {{-- <button id="my-button" class="btn btn-primary mt-3">Simpan jawaban essay</button> --}}
                 @endif
             </div>
     @endforeach
@@ -137,20 +136,16 @@
     //     });
 
     document.getElementById('submit').addEventListener('click', function() {
-        let hiddenbutton = document.getElementById("hidden-button");
-        document.getElementById('my-button').click();
-        document.getElementById('my-button').click();
-        hiddenbutton.click();
         @this.call('submitAnswers');
     })
     
         // Add an event listener to the button
-    document.getElementById('my-button').addEventListener('click', function() {
-        let myVariable = document.getElementById("essay").value;
-        let hiddenbutton = document.getElementById("hidden-button");
-        // Call the Livewire method and pass the JavaScript variable as a parameter
-        // Livewire.emit('myAction', myVariable);
-        @this.call('SimpanEssay', myVariable);
-        hiddenbutton.click();
-    });
+    // document.getElementById('my-button').addEventListener('click', function() {
+    //     let myVariable = document.getElementById("essay").value;
+    //     let hiddenbutton = document.getElementById("hidden-button");
+    //     // Call the Livewire method and pass the JavaScript variable as a parameter
+    //     // Livewire.emit('myAction', myVariable);
+    //     @this.call('SimpanEssay', myVariable);
+    //     hiddenbutton.click();
+    // });
 </script>
