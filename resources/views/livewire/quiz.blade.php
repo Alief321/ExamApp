@@ -56,7 +56,7 @@
         <div class="card mt-3" style="display: none;" id="text-answer">
             <div class="card-body">
                 <p>Jawaban Teks:</p>
-                <textarea id="essay" name="essay" cols="30" rows="30" class="form-control" style="height:200px">{{ old('essay') }}</textarea>
+                <textarea id="essay" name="essay" cols="30" rows="30" class="form-control" style="height:200px"></textarea>
             </div>
         </div>
         <button id="my-button" class="hidden">Simpan jawaban essay</button>

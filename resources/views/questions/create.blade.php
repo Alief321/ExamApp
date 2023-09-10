@@ -104,6 +104,20 @@
                         </div>
 
                         <div class="form-group">
+                            <label>TIPE PERTANYAAN</label>
+                            <select class="form-control select-document @error('type') is-invalid @enderror" name="type" id="typeSelect">
+                                <option value="">- SELECT TYPE -</option>
+                                    <option value="Pilihan ganda">Pilihan ganda</option>
+                                    <option value="Uraian">Uraian</option>
+                            </select>
+                            @error('type')
+                            <div class="invalid-feedback" style="display: block">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
                             <label>DETAIL</label>
                             <textarea name="detail" cols="30" rows="30" class="form-control">{{ old('detail') }}</textarea>
                             @error('detail')
@@ -113,60 +127,63 @@
                             @enderror
                         </div>
 
-                        <div class="form-group">
-                            <label>OPTION A</label>
-                            <input type="text" name="option_A" value="{{ old('option_A') }}" class="form-control" >
-
-                            @error('option_A')
-                            <div class="invalid-feedback" style="display: block">
-                                {{ $message }}
+                        <div id="Pilgan" class="d-none">
+                            <div class="form-group">
+                                <label>OPTION A</label>
+                                <input type="text" name="option_A" value="{{ old('option_A') }}" class="form-control" >
+    
+                                @error('option_A')
+                                <div class="invalid-feedback" style="display: block">
+                                    {{ $message }}
+                                </div>
+                                @enderror
                             </div>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
-                            <label>OPTION B</label>
-                            <input type="text" name="option_B" value="{{ old('option_B') }}" class="form-control" >
-
-                            @error('option_B')
-                            <div class="invalid-feedback" style="display: block">
-                                {{ $message }}
+    
+                            <div class="form-group">
+                                <label>OPTION B</label>
+                                <input type="text" name="option_B" value="{{ old('option_B') }}" class="form-control" >
+    
+                                @error('option_B')
+                                <div class="invalid-feedback" style="display: block">
+                                    {{ $message }}
+                                </div>
+                                @enderror
                             </div>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
-                            <label>OPTION C</label>
-                            <input type="text" name="option_C" value="{{ old('option_C') }}" class="form-control" >
-
-                            @error('option_C')
-                            <div class="invalid-feedback" style="display: block">
-                                {{ $message }}
+    
+                            <div class="form-group">
+                                <label>OPTION C</label>
+                                <input type="text" name="option_C" value="{{ old('option_C') }}" class="form-control" >
+    
+                                @error('option_C')
+                                <div class="invalid-feedback" style="display: block">
+                                    {{ $message }}
+                                </div>
+                                @enderror
                             </div>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
-                            <label>OPTION D</label>
-                            <input type="text" name="option_D" value="{{ old('option_D') }}" class="form-control" >
-
-                            @error('option_D')
-                            <div class="invalid-feedback" style="display: block">
-                                {{ $message }}
+    
+                            <div class="form-group">
+                                <label>OPTION D</label>
+                                <input type="text" name="option_D" value="{{ old('option_D') }}" class="form-control" >
+    
+                                @error('option_D')
+                                <div class="invalid-feedback" style="display: block">
+                                    {{ $message }}
+                                </div>
+                                @enderror
                             </div>
-                            @enderror
+    
+                            <div class="form-group">
+                                <label>OPTION E</label>
+                                <input type="text" name="option_E" value="{{ old('option_E') }}" class="form-control" >
+    
+                                @error('option_E')
+                                <div class="invalid-feedback" style="display: block">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>    
                         </div>
-
-                        <div class="form-group">
-                            <label>OPTION E</label>
-                            <input type="text" name="option_E" value="{{ old('option_E') }}" class="form-control" >
-
-                            @error('option_E')
-                            <div class="invalid-feedback" style="display: block">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
+                        
 
                         <div class="form-group">
                             <label>ANSWER</label>
@@ -199,4 +216,17 @@
         </div>
     </section>
 </div>
+
+<script>
+    $(document).ready(function() {
+    $('#typeSelect').change(function() {
+        var selectedValue = $(this).val();
+        if (selectedValue == "Pilihan ganda") {
+            $('#Pilgan').removeClass('d-none');
+        } else {
+            $('#Pilgan').addClass('d-none');
+        }
+    });
+});
+</script>
 @stop
