@@ -33,35 +33,40 @@
                 NO
             @endif
         <br>
-        <i>Pilih salah satu jawaban dibawah ini:</i> 
-        <br>
-        <div class="btn-group-vertical" role="group" aria-label="Basic example">
-            <button type="button" class="{{ in_array($question['id'].'-'.$question['option_A'], $selectedAnswers) ? 'btn btn-success border border-secondary rounded' : 'btn btn-light border border-secondary rounded' }}"
-            wire:click="answers({{ $question['id'] }}, '{{ $question['option_A'] }}')"><p class="text-left"><b> A. {{ $question['option_A'] }} </b></p></button>
-            <button type="button" class="{{ in_array($question['id'].'-'.$question['option_B'], $selectedAnswers) ? 'btn btn-success border border-secondary rounded' : 'btn btn-light border border-secondary rounded' }}"
-            wire:click="answers({{ $question['id'] }}, '{{ $question['option_B'] }}')"><p class="text-left"><b> B. {{ $question['option_B'] }} </b></p></button>
-            <button type="button" class="{{ in_array($question['id'].'-'.$question['option_C'], $selectedAnswers) ? 'btn btn-success border border-secondary rounded' : 'btn btn-light border border-secondary rounded' }}"
-            wire:click="answers({{ $question['id'] }}, '{{ $question['option_C'] }}')"><p class="text-left"><b> C. {{ $question['option_C'] }} </b></p></button>
-            <button type="button" class="{{ in_array($question['id'].'-'.$question['option_D'], $selectedAnswers) ? 'btn btn-success border border-secondary rounded' : 'btn btn-light border border-secondary rounded' }}"
-            wire:click="answers({{ $question['id'] }}, '{{ $question['option_D'] }}')"><p class="text-left"><b> D. {{ $question['option_D'] }} </b></p></button>
-            <button type="button" class="{{ in_array($question['id'].'-'.$question['option_E'], $selectedAnswers) ? 'btn btn-success border border-secondary rounded' : 'btn btn-light border border-secondary rounded' }}"
-            wire:click="answers({{ $question['id'] }}, '{{ $question['option_E'] }}')"><p class="text-left"><b> E. {{ $question['option_E'] }} </b></p></button>
-        </div>
-        <!-- Tombol "Jawaban Teks" -->
-        <button hidden id="hidden-button" wire:click="essay_answers({{ $question['id']}},'{{ $receivedData }}' )"></button>
-        <div>
-            <button type="button" class="btn btn-primary mt-3" id="toggle-text-answer">Jawaban Teks</button>
-        </div>
-        <!-- Jawaban Teks (Textarea) - Awalnya disembunyikan -->
-        <div class="card mt-3" style="display: none;" id="text-answer">
-            <div class="card-body">
-                <p>Jawaban Teks:</p>
-                <textarea id="essay" name="essay" cols="30" rows="30" class="form-control" style="height:200px"></textarea>
+
+        @if ($question->type == "Pilihan ganda")    
+            <i>Pilih salah satu jawaban dibawah ini:</i> 
+            <br>
+            <div class="btn-group-vertical" role="group" aria-label="Basic example">
+                <button type="button" class="{{ in_array($question['id'].'-'.$question['option_A'], $selectedAnswers) ? 'btn btn-success border border-secondary rounded' : 'btn btn-light border border-secondary rounded' }}"
+                wire:click="answers({{ $question['id'] }}, '{{ $question['option_A'] }}')"><p class="text-left"><b> A. {{ $question['option_A'] }} </b></p></button>
+                <button type="button" class="{{ in_array($question['id'].'-'.$question['option_B'], $selectedAnswers) ? 'btn btn-success border border-secondary rounded' : 'btn btn-light border border-secondary rounded' }}"
+                wire:click="answers({{ $question['id'] }}, '{{ $question['option_B'] }}')"><p class="text-left"><b> B. {{ $question['option_B'] }} </b></p></button>
+                <button type="button" class="{{ in_array($question['id'].'-'.$question['option_C'], $selectedAnswers) ? 'btn btn-success border border-secondary rounded' : 'btn btn-light border border-secondary rounded' }}"
+                wire:click="answers({{ $question['id'] }}, '{{ $question['option_C'] }}')"><p class="text-left"><b> C. {{ $question['option_C'] }} </b></p></button>
+                <button type="button" class="{{ in_array($question['id'].'-'.$question['option_D'], $selectedAnswers) ? 'btn btn-success border border-secondary rounded' : 'btn btn-light border border-secondary rounded' }}"
+                wire:click="answers({{ $question['id'] }}, '{{ $question['option_D'] }}')"><p class="text-left"><b> D. {{ $question['option_D'] }} </b></p></button>
+                <button type="button" class="{{ in_array($question['id'].'-'.$question['option_E'], $selectedAnswers) ? 'btn btn-success border border-secondary rounded' : 'btn btn-light border border-secondary rounded' }}"
+                wire:click="answers({{ $question['id'] }}, '{{ $question['option_E'] }}')"><p class="text-left"><b> E. {{ $question['option_E'] }} </b></p></button>
             </div>
-        </div>
-        <button id="my-button" class="hidden">Simpan jawaban essay</button>
-    </div>
+        @elseif($question->type == "Uraian")
+                <!-- Tombol "Jawaban Teks" -->
+                <button hidden id="hidden-button" wire:click="essay_answers({{ $question['id']}},'{{ $receivedData }}' )"></button>
+                <div>
+                    <button type="button" class="btn btn-primary mt-3" id="toggle-text-answer">Jawaban Teks</button>
+                </div>
+                <!-- Jawaban Teks (Textarea) - Awalnya disembunyikan -->
+                <div class="card mt-3" style="display: none;" id="text-answer">
+                    <div class="card-body">
+                        <p>Jawaban Teks:</p>
+                        <textarea id="essay" name="essay" cols="30" rows="30" class="form-control" style="height:200px"></textarea>
+                    </div>
+                </div>
+                <button id="my-button" class="hidden">Simpan jawaban essay</button>
+                @endif
+            </div>
     @endforeach
+
 
     {{-- @foreach ($selectedAnswers as $item)
         {{ $item }}
