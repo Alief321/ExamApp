@@ -30,38 +30,45 @@
             @elseif($question['image_id'])
             <img src="{{ Storage::url('public/images/'.$image->getLink($question['image_id'])) }}" style="width: 600px">
             @else
-                NO
+                
             @endif
         <br>
-        <i>Pilih salah satu jawaban dibawah ini:</i> 
-        <br>
-        <div class="btn-group-vertical" role="group" aria-label="Basic example">
-            <button type="button" class="{{ in_array($question['id'].'-'.$question['option_A'], $selectedAnswers) ? 'btn btn-success border border-secondary rounded' : 'btn btn-light border border-secondary rounded' }}"
-            wire:click="answers({{ $question['id'] }}, '{{ $question['option_A'] }}')"><p class="text-left"><b> A. {{ $question['option_A'] }} </b></p></button>
-            <button type="button" class="{{ in_array($question['id'].'-'.$question['option_B'], $selectedAnswers) ? 'btn btn-success border border-secondary rounded' : 'btn btn-light border border-secondary rounded' }}"
-            wire:click="answers({{ $question['id'] }}, '{{ $question['option_B'] }}')"><p class="text-left"><b> B. {{ $question['option_B'] }} </b></p></button>
-            <button type="button" class="{{ in_array($question['id'].'-'.$question['option_C'], $selectedAnswers) ? 'btn btn-success border border-secondary rounded' : 'btn btn-light border border-secondary rounded' }}"
-            wire:click="answers({{ $question['id'] }}, '{{ $question['option_C'] }}')"><p class="text-left"><b> C. {{ $question['option_C'] }} </b></p></button>
-            <button type="button" class="{{ in_array($question['id'].'-'.$question['option_D'], $selectedAnswers) ? 'btn btn-success border border-secondary rounded' : 'btn btn-light border border-secondary rounded' }}"
-            wire:click="answers({{ $question['id'] }}, '{{ $question['option_D'] }}')"><p class="text-left"><b> D. {{ $question['option_D'] }} </b></p></button>
-            <button type="button" class="{{ in_array($question['id'].'-'.$question['option_E'], $selectedAnswers) ? 'btn btn-success border border-secondary rounded' : 'btn btn-light border border-secondary rounded' }}"
-            wire:click="answers({{ $question['id'] }}, '{{ $question['option_E'] }}')"><p class="text-left"><b> E. {{ $question['option_E'] }} </b></p></button>
-        </div>
-        <!-- Tombol "Jawaban Teks" -->
-        <button hidden id="hidden-button" wire:click="essay_answers({{ $question['id']}},'{{ $receivedData }}' )"></button>
-        <div>
-            <button type="button" class="btn btn-primary mt-3" id="toggle-text-answer">Jawaban Teks</button>
-        </div>
-        <!-- Jawaban Teks (Textarea) - Awalnya disembunyikan -->
-        <div class="card mt-3" style="display: none;" id="text-answer">
-            <div class="card-body">
-                <p>Jawaban Teks:</p>
-                <textarea id="essay" name="essay" cols="30" rows="30" class="form-control" style="height:200px">{{ old('essay') }}</textarea>
+
+        @if ($question->type == "Pilihan ganda")    
+            <i>Pilih salah satu jawaban dibawah ini:</i> 
+            <br>
+            <div class="btn-group-vertical" role="group" aria-label="Basic example">
+                <button type="button" class="{{ in_array($question['id'].'-'.$question['option_A'], $selectedAnswers) ? 'btn btn-success border border-secondary rounded' : 'btn btn-light border border-secondary rounded' }}"
+                wire:click="answers({{ $question['id'] }}, '{{ $question['option_A'] }}')"><p class="text-left"><b> A. {{ $question['option_A'] }} </b></p></button>
+                <button type="button" class="{{ in_array($question['id'].'-'.$question['option_B'], $selectedAnswers) ? 'btn btn-success border border-secondary rounded' : 'btn btn-light border border-secondary rounded' }}"
+                wire:click="answers({{ $question['id'] }}, '{{ $question['option_B'] }}')"><p class="text-left"><b> B. {{ $question['option_B'] }} </b></p></button>
+                <button type="button" class="{{ in_array($question['id'].'-'.$question['option_C'], $selectedAnswers) ? 'btn btn-success border border-secondary rounded' : 'btn btn-light border border-secondary rounded' }}"
+                wire:click="answers({{ $question['id'] }}, '{{ $question['option_C'] }}')"><p class="text-left"><b> C. {{ $question['option_C'] }} </b></p></button>
+                <button type="button" class="{{ in_array($question['id'].'-'.$question['option_D'], $selectedAnswers) ? 'btn btn-success border border-secondary rounded' : 'btn btn-light border border-secondary rounded' }}"
+                wire:click="answers({{ $question['id'] }}, '{{ $question['option_D'] }}')"><p class="text-left"><b> D. {{ $question['option_D'] }} </b></p></button>
+                
+                {{-- Jika ada opsi E --}}
+                @if ($question->option_E != NULL)    
+                    <button type="button" class="{{ in_array($question['id'].'-'.$question['option_E'], $selectedAnswers) ? 'btn btn-success border border-secondary rounded' : 'btn btn-light border border-secondary rounded' }}"
+                    wire:click="answers({{ $question['id'] }}, '{{ $question['option_E'] }}')"><p class="text-left"><b> E. {{ $question['option_E'] }} </b></p></button>
+                @endif
             </div>
-        </div>
-        <button id="my-button" class="hidden">Simpan jawaban essay</button>
-    </div>
+            @elseif($question->type == "Uraian")
+                <!-- Tombol "Jawaban Teks" -->
+                {{-- <div>
+                    <button type="button" class="btn btn-primary mt-3" id="toggle-text-answer">Jawaban Teks</button>
+                </div> --}}
+                <div class="card mt-3" id="text-answer">
+                    <div class="card-body">
+                        <p>Jawaban Teks:</p>
+                        <textarea id="{{ $question['id'] }}" name="essay" cols="30" rows="30" class="form-control" style="height:200px" wire:keydown="essay_answers({{ $question['id'] }}, this.value)"></textarea>
+                    </div>
+                </div>
+                {{-- <button id="my-button" class="btn btn-primary mt-3">Simpan jawaban essay</button> --}}
+                @endif
+            </div>
     @endforeach
+
 
     {{-- @foreach ($selectedAnswers as $item)
         {{ $item }}
@@ -76,7 +83,7 @@
     </div>
     <div class="card-footer">
         @if ($questions->currentPage() == $questions->lastPage())
-            <button id="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+            <button id="submit" wire:click="submitAnswers()" class="btn btn-primary btn-lg btn-block">Submit</button>
         @endif
     </div>
 </div>
@@ -117,32 +124,28 @@
     }
     }, 1000);
 
-    // Fungsi untuk menampilkan atau menyembunyikan jawaban teks saat tombol diklik
-    document.getElementById("toggle-text-answer").addEventListener("click", function() {
-            let textAnswer = document.getElementById("text-answer");
+    // // Fungsi untuk menampilkan atau menyembunyikan jawaban teks saat tombol diklik
+    // document.getElementById("toggle-text-answer").addEventListener("click", function() {
+    //         let textAnswer = document.getElementById("text-answer");
 
-            if (textAnswer.style.display === "none") {
-                textAnswer.style.display = "block";
-            } else {
-                textAnswer.style.display = "none";
-            }
-        });
+    //         if (textAnswer.style.display === "none") {
+    //             textAnswer.style.display = "block";
+    //         } else {
+    //             textAnswer.style.display = "none";
+    //         }
+    //     });
 
-    document.getElementById('submit').addEventListener('click', function() {
-        let hiddenbutton = document.getElementById("hidden-button");
-        document.getElementById('my-button').click();
-        document.getElementById('my-button').click();
-        hiddenbutton.click();
-        @this.call('submitAnswers');
-    })
+    // document.getElementById('submit').addEventListener('click', function() {
+    //     @this.call('submitAnswers');
+    // })
     
         // Add an event listener to the button
-    document.getElementById('my-button').addEventListener('click', function() {
-        let myVariable = document.getElementById("essay").value;
-        let hiddenbutton = document.getElementById("hidden-button");
-        // Call the Livewire method and pass the JavaScript variable as a parameter
-        // Livewire.emit('myAction', myVariable);
-        @this.call('SimpanEssay', myVariable);
-        hiddenbutton.click();
-    });
+    // document.getElementById('my-button').addEventListener('click', function() {
+    //     let myVariable = document.getElementById("essay").value;
+    //     let hiddenbutton = document.getElementById("hidden-button");
+    //     // Call the Livewire method and pass the JavaScript variable as a parameter
+    //     // Livewire.emit('myAction', myVariable);
+    //     @this.call('SimpanEssay', myVariable);
+    //     hiddenbutton.click();
+    // });
 </script>
