@@ -61,7 +61,7 @@
                 <div class="card mt-3" id="text-answer">
                     <div class="card-body">
                         <p>Jawaban Teks:</p>
-                        <textarea id="{{ $question['id'] }}" name="essay" cols="30" rows="30" class="form-control" style="height:200px" wire:keydown="essay_answers({{ $question['id'] }}, 'ffgfgfggfgfg')"></textarea>
+                        <textarea id="{{ $question['id'] }}" name="essay" cols="30" rows="30" class="form-control" style="height:200px" wire:keydown="essay_answers({{ $question['id'] }}, this.value)"></textarea>
                     </div>
                 </div>
                 {{-- <button id="my-button" class="btn btn-primary mt-3">Simpan jawaban essay</button> --}}
