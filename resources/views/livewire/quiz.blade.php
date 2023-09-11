@@ -61,7 +61,7 @@
                 <div class="card mt-3" id="text-answer">
                     <div class="card-body">
                         <p>Jawaban Teks:</p>
-                        <textarea id="essay" name="essay" cols="30" rows="30" class="form-control" style="height:200px" wire:keydown="essay_answers({{ $question['id'] }}, 'ffgfgfggfgfg')">{{ old('essay') }}</textarea>
+                        <textarea id="{{ $question['id'] }}" name="essay" cols="30" rows="30" class="form-control" style="height:200px" wire:keydown="essay_answers({{ $question['id'] }}, 'ffgfgfggfgfg')"></textarea>
                     </div>
                 </div>
                 {{-- <button id="my-button" class="btn btn-primary mt-3">Simpan jawaban essay</button> --}}
@@ -83,7 +83,7 @@
     </div>
     <div class="card-footer">
         @if ($questions->currentPage() == $questions->lastPage())
-            <button id="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+            <button id="submit" wire:click="submitAnswers()" class="btn btn-primary btn-lg btn-block">Submit</button>
         @endif
     </div>
 </div>
@@ -135,9 +135,9 @@
     //         }
     //     });
 
-    document.getElementById('submit').addEventListener('click', function() {
-        @this.call('submitAnswers');
-    })
+    // document.getElementById('submit').addEventListener('click', function() {
+    //     @this.call('submitAnswers');
+    // })
     
         // Add an event listener to the button
     // document.getElementById('my-button').addEventListener('click', function() {

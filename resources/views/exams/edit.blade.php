@@ -40,17 +40,6 @@
                         </div>
 
                         <div class="form-group">
-                            <label>TOTAL QUESTION</label>
-                            <input type="number" name="total_question" value="{{ old('total_question', $exam->total_question) }}" class="form-control" >
-
-                            @error('total_question')
-                            <div class="invalid-feedback" style="display: block">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
                             <label>START</label>
                             <input type="datetime-local" name="start" value="<?php echo date('Y-m-d\TH:i:s', strtotime($exam->start)); ?>" class="form-control @error('start') is-invalid @enderror">
 
