@@ -68,15 +68,21 @@ class QuestionController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'subject_id'  => 'required',
-            'detail'      => 'required',
-            'option_A'    => 'required',
-            'option_B'    => 'required',
-            'option_C'    => 'required',
-            'option_D'    => 'required',
-            'answer'      => 'required',
-            'explanation' => 'required'
+            'subject_id'    => 'required',
+            'detail'        => 'required',
+            'answer'        => 'required',
+            'explanation'   => 'required',
+            'type'          => 'required'
         ]);
+
+        if ($request->input('type') == 'Pilihan ganda') {
+            $this->validate($request,[
+                'option_A'    => 'required',
+                'option_B'    => 'required',
+                'option_C'    => 'required',
+                'option_D'    => 'required'
+            ]);
+        }
 
         $question = Question::create([
             'subject_id'    => $request->input('subject_id'),
@@ -92,6 +98,7 @@ class QuestionController extends Controller
             'document_id'   => $request->input('document_id'),
             'answer'        => $request->input('answer'),
             'explanation'   => $request->input('explanation'),
+            'type'          => $request->input('type'),
             'created_by'    => Auth()->id()
         ]);
 
@@ -131,15 +138,21 @@ class QuestionController extends Controller
     public function update(Request $request, Question $question)
     {
         $this->validate($request, [
-            'subject_id'  => 'required',
-            'detail'      => 'required',
-            'option_A'    => 'required',
-            'option_B'    => 'required',
-            'option_C'    => 'required',
-            'option_D'    => 'required',
-            'answer'      => 'required',
-            'explanation' => 'required'
+            'subject_id'    => 'required',
+            'detail'        => 'required',
+            'answer'        => 'required',
+            'explanation'   => 'required',
+            'type'          => 'required'
         ]);
+
+        if ($request->input('type') == 'Pilihan ganda') {
+            $this->validate($request,[
+                'option_A'    => 'required',
+                'option_B'    => 'required',
+                'option_C'    => 'required',
+                'option_D'    => 'required'
+            ]);
+        }
 
         $question = Question::findOrFail($question->id);
 
@@ -157,6 +170,7 @@ class QuestionController extends Controller
             'document_id'   => $request->input('document_id'),
             'answer'        => $request->input('answer'),
             'explanation'   => $request->input('explanation'),
+            'type'          => $request->input('type'),
             'created_by'    => Auth()->id()
         ]);
 
@@ -191,4 +205,5 @@ class QuestionController extends Controller
             ]);
         }
     }
+
 }

@@ -55,6 +55,7 @@ class Quiz extends Component
     public function essay_answers($questionId, $essay)
     {
         $this->essayAnswers[$questionId] = $essay;
+        // dd($questionId, ':', $essay);
     }
 
     public function SimpanEssay($jsVariable)
