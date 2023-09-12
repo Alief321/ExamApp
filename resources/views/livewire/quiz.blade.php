@@ -61,7 +61,7 @@
             <div class="card mt-1" id="text-answer">
                 <div class="card-body">
                     <p>Jawaban Teks:</p>
-                    <input type="text" class="form-control" style="height:200px" wire:model="isiEssay.{{ $question['id'] }}"/>
+                    <textarea type="text" class="form-control" style="height:200px" wire:model="isiEssay.{{ $question['id'] }}"></textarea>
                     </div>
             </div>
             <div class="d-flex justify-content-end">
