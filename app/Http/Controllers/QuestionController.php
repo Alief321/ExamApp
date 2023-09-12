@@ -70,13 +70,13 @@ class QuestionController extends Controller
         $this->validate($request, [
             'subject_id'    => 'required',
             'detail'        => 'required',
-            'answer'        => 'required',
-            'explanation'   => 'required',
             'type'          => 'required'
         ]);
 
         if ($request->input('type') == 'Pilihan ganda') {
             $this->validate($request,[
+                'answer'        => 'required',
+                'explanation'   => 'required',
                 'option_A'    => 'required',
                 'option_B'    => 'required',
                 'option_C'    => 'required',
@@ -140,13 +140,13 @@ class QuestionController extends Controller
         $this->validate($request, [
             'subject_id'    => 'required',
             'detail'        => 'required',
-            'answer'        => 'required',
-            'explanation'   => 'required',
             'type'          => 'required'
         ]);
 
         if ($request->input('type') == 'Pilihan ganda') {
             $this->validate($request,[
+                'answer'        => 'required',
+                'explanation'   => 'required',
                 'option_A'    => 'required',
                 'option_B'    => 'required',
                 'option_C'    => 'required',

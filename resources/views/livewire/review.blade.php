@@ -44,11 +44,14 @@
             </div>
             <br><br>
         @endif
+
+        @if ($question['explanation'] != NULL)     
         <i>Pembahasan</i> 
         <br>
         <div class="alert alert-success" role="alert">
             {{ $question['explanation'] }}
         </div>
+        @endif
     </div>
     @endforeach
     

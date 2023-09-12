@@ -23,9 +23,10 @@ class Quiz extends Component
     public $exam_id;
     public $user_id;
     public $selectedAnswers = [];
-    public $isiEssay;
+    public $isiEssay = [];
     public $essayAnswers = [];
     public $total_question;
+    public $total_pilgan;
     public $receivedData;
     protected $listeners = ['endTimer' => 'submitAnswers', 'myAction' => 'SimpanEssay',];
 
@@ -37,8 +38,16 @@ class Quiz extends Component
 
     public function questions()
     {
+        $count=0;
         $exam = Exam::findOrFail($this->exam_id);
         $exam_questions = $exam->questions;
+        
+        foreach ($exam_questions as $q) {
+            if ($q->type == "Pilihan ganda") {
+                $count++;
+            }
+        }
+        $this->total_pilgan = $count;
         $this->total_question = $exam_questions->count();
 
         if($this->total_question >= $exam->total_question) {
@@ -56,7 +65,7 @@ class Quiz extends Component
 
     public function essay_answers($questionId)
     {
-        $this->essayAnswers[$questionId] = $questionId.'-'.$this->isiEssay;
+        $this->essayAnswers[$questionId] = $questionId.'-'.$this->isiEssay[$questionId];
     }
 
     public function SimpanEssay($jsVariable)
@@ -89,14 +98,13 @@ class Quiz extends Component
     {
         if(!empty($this->selectedAnswers))
         {
-            
             $score = 0;
             foreach($this->selectedAnswers as $key => $value)
             {
                 $userAnswer = "";
                 $rightAnswer = Question::findOrFail($key)->answer;
                 $userAnswer = substr($value, strpos($value,'-')+1);
-                $bobot = 100 / $this->total_question;
+                $bobot = 100 / $this->total_pilgan;
                 if($userAnswer == $rightAnswer){
                     $score = $score + $bobot;
                 }

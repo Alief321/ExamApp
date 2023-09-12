@@ -61,12 +61,12 @@
             <div class="card mt-1" id="text-answer">
                 <div class="card-body">
                     <p>Jawaban Teks:</p>
-                    <input type="text" class="form-control" style="height:200px" wire:model="isiEssay"/>
+                    <input type="text" class="form-control" style="height:200px" wire:model="isiEssay.{{ $question['id'] }}"/>
                     </div>
             </div>
             <div class="d-flex justify-content-end">
                 @if ($questions->currentPage() == $questions->lastPage())
-                    <button id="submit" class="btn btn-primary mt-1" wire:click="essay_answers({{ $question['id'] }})">Simpan</button>
+                    <button id="simpan" class="btn btn-primary mt-1" wire:click="essay_answers({{ $question['id'] }})">Simpan</button>
                 @else
                     <button class="btn btn-primary mt-1" wire:click="essay_answers({{ $question['id'] }})">Simpan</button>
                 @endif
@@ -125,4 +125,5 @@
         Livewire.emit('endTimer');
     }
     }, 1000);
+
 </script>
