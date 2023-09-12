@@ -28,7 +28,7 @@ class Quiz extends Component
     public $total_question;
     public $total_pilgan;
     public $receivedData;
-    protected $listeners = ['endTimer' => 'submitAnswers', 'myAction' => 'SimpanEssay',];
+    protected $listeners = ['endTimer' => 'submitAnswers'];
 
     public function mount($id)
     {
@@ -67,11 +67,6 @@ class Quiz extends Component
     {
         $pertanyaan = Question::findOrFail($questionId);
         $this->essayAnswers[$questionId] = 'PERTANYAAN: '.$pertanyaan->detail.' JAWABAN: '.$this->isiEssay[$questionId];
-    }
-
-    public function SimpanEssay($jsVariable)
-    {
-        $this->receivedData = $jsVariable;
     }
 
     public function submitEssayAnswers(){
