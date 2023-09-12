@@ -76,7 +76,6 @@ class ExamController extends Controller
         $this->validate($request, [
             'name'          => 'required',
             'time'          => 'required',
-            'total_question' => 'required',
             'start'         => 'required',
             'end'           => 'required'
         ]);
@@ -84,7 +83,6 @@ class ExamController extends Controller
         $exam = Exam::create([
             'name'          => $request->input('name'),
             'time'          => $request->input('time'),
-            'total_question' => $request->input('total_question'),
             'status'        => 'Ready',
             'start'         => $request->input('start'),
             'end'           => $request->input('end'),
@@ -127,7 +125,6 @@ class ExamController extends Controller
         $this->validate($request, [
             'name'          => 'required',
             'time'          => 'required',
-            'total_question' => 'required',
             'start'         => 'required',
             'end'           => 'required'
         ]);
@@ -135,7 +132,6 @@ class ExamController extends Controller
         $exam->update([
             'name'          => $request->input('name'),
             'time'          => $request->input('time'),
-            'total_question' => $request->input('total_question'),
             'start'         => $request->input('start'),
             'end'           => $request->input('end'),
             'created_by'    => Auth()->id()

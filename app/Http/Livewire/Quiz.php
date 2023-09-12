@@ -13,6 +13,7 @@ use App\Models\Question;
 use Livewire\WithPagination;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Database\Eloquent\Builder;
+use SebastianBergmann\Type\NullType;
 
 class Quiz extends Component
 {
@@ -22,10 +23,12 @@ class Quiz extends Component
     public $exam_id;
     public $user_id;
     public $selectedAnswers = [];
+    public $isiEssay = [];
     public $essayAnswers = [];
     public $total_question;
+    public $total_pilgan;
     public $receivedData;
-    protected $listeners = ['endTimer' => 'submitAnswers', 'myAction' => 'SimpanEssay',];
+    protected $listeners = ['endTimer' => 'submitAnswers'];
 
     public function mount($id)
     {
@@ -35,8 +38,16 @@ class Quiz extends Component
 
     public function questions()
     {
+        $count=0;
         $exam = Exam::findOrFail($this->exam_id);
         $exam_questions = $exam->questions;
+        
+        foreach ($exam_questions as $q) {
+            if ($q->type == "Pilihan ganda") {
+                $count++;
+            }
+        }
+        $this->total_pilgan = $count;
         $this->total_question = $exam_questions->count();
 
         if($this->total_question >= $exam->total_question) {
@@ -52,17 +63,31 @@ class Quiz extends Component
         $this->selectedAnswers[$questionId] = $questionId.'-'.$option;
     }
 
-    public function essay_answers($questionId, $essay)
+    public function essay_answers($questionId)
     {
-        $this->essayAnswers[$questionId] = $essay;
+        $pertanyaan = Question::findOrFail($questionId);
+        $this->essayAnswers[$questionId] = 'PERTANYAAN: '.$pertanyaan->detail.','.' JAWABAN: '.$this->isiEssay[$questionId];
     }
 
-    public function SimpanEssay($jsVariable)
-    {
-        // $jsVariable contains the data sent from JavaScript
-        $this->receivedData = $jsVariable;
+    public function submitEssayAnswers(){
+        if(!empty($this->essay_answers)){
+            $score = NULL;
+        }else{
+            $score = NULL;
+        }
 
-        // You can perform any actions specific to the Livewire method here
+        $essayAnswers_str = json_encode($this->essayAnswers);
+        $this->user_id = Auth()->id();
+        $user = User::findOrFail($this->user_id);
+        $user_exam = $user->whereHas('exams', function (Builder $query) {
+            $query->where('exam_id',$this->exam_id)->where('user_id',$this->user_id);
+        })->count();
+        if($user_exam == 0)
+        {
+            $user->exams()->attach($this->exam_id, ['essay' => $essayAnswers_str]);
+        } else{
+            $user->exams()->updateExistingPivot($this->exam_id, ['essay' => $essayAnswers_str]);
+        }
     }
 
     public function submitAnswers()
@@ -76,6 +101,7 @@ class Quiz extends Component
                 $userAnswer = "";
                 $rightAnswer = Question::findOrFail($key)->answer;
                 $userAnswer = substr($value, strpos($value,'-')+1);
+                $bobot = 100 / $this->total_pilgan;
                 if($userAnswer == $rightAnswer){
                     $score = $score + $bobot;
                 }
@@ -91,7 +117,6 @@ class Quiz extends Component
         
         $selectedAnswers_str = json_encode($this->selectedAnswers);
         $essayAnswers_str = json_encode($this->essayAnswers);
-        // dd($essayAnswers_str);
         $this->user_id = Auth()->id();
         $user = User::findOrFail($this->user_id);
         $user_exam = $user->whereHas('exams', function (Builder $query) {

@@ -39,7 +39,16 @@
                                         <td>{{ $student->name }}</td>
                                         <td>{{ $student->email }}</td>
                                         <td>{{ $student->pivot->score }}</td>
-                                        <td>{{ $student->pivot->essay}}</td>
+                                        <td>@php
+                                            $essay = json_decode($student->pivot->essay,true);
+                                            foreach ($essay as $item) {
+                                                list($pertanyaan, $jawaban) = explode(',', $item);
+
+                                                echo "$pertanyaan<br>";
+                                                echo "$jawaban<br>";
+                                                echo "<br>"; // Baris kosong antara setiap pasangan pertanyaan dan jawaban
+                                            }
+                                        @endphp</td>
                                     </tr>
                                 @endforeach
                                 </tbody>
