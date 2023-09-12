@@ -13,6 +13,7 @@ use App\Models\Question;
 use Livewire\WithPagination;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Database\Eloquent\Builder;
+use SebastianBergmann\Type\NullType;
 
 class Quiz extends Component
 {
@@ -22,6 +23,7 @@ class Quiz extends Component
     public $exam_id;
     public $user_id;
     public $selectedAnswers = [];
+    public $isiEssay;
     public $essayAnswers = [];
     public $total_question;
     public $receivedData;
@@ -52,18 +54,35 @@ class Quiz extends Component
         $this->selectedAnswers[$questionId] = $questionId.'-'.$option;
     }
 
-    public function essay_answers($questionId, $essay)
+    public function essay_answers($questionId)
     {
-        $this->essayAnswers[$questionId] = $essay;
-        // dd($questionId, ':', $essay);
+        $this->essayAnswers[$questionId] = $questionId.'-'.$this->isiEssay;
     }
 
     public function SimpanEssay($jsVariable)
     {
-        // $jsVariable contains the data sent from JavaScript
         $this->receivedData = $jsVariable;
+    }
 
-        // You can perform any actions specific to the Livewire method here
+    public function submitEssayAnswers(){
+        if(!empty($this->essay_answers)){
+            $score = NULL;
+        }else{
+            $score = NULL;
+        }
+
+        $essayAnswers_str = json_encode($this->essayAnswers);
+        $this->user_id = Auth()->id();
+        $user = User::findOrFail($this->user_id);
+        $user_exam = $user->whereHas('exams', function (Builder $query) {
+            $query->where('exam_id',$this->exam_id)->where('user_id',$this->user_id);
+        })->count();
+        if($user_exam == 0)
+        {
+            $user->exams()->attach($this->exam_id, ['essay' => $essayAnswers_str]);
+        } else{
+            $user->exams()->updateExistingPivot($this->exam_id, ['essay' => $essayAnswers_str]);
+        }
     }
 
     public function submitAnswers()
@@ -88,7 +107,6 @@ class Quiz extends Component
         
         $selectedAnswers_str = json_encode($this->selectedAnswers);
         $essayAnswers_str = json_encode($this->essayAnswers);
-        // dd($essayAnswers_str);
         $this->user_id = Auth()->id();
         $user = User::findOrFail($this->user_id);
         $user_exam = $user->whereHas('exams', function (Builder $query) {

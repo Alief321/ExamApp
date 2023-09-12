@@ -53,28 +53,30 @@
                     wire:click="answers({{ $question['id'] }}, '{{ $question['option_E'] }}')"><p class="text-left"><b> E. {{ $question['option_E'] }} </b></p></button>
                 @endif
             </div>
-            @elseif($question->type == "Uraian")
-                <!-- Tombol "Jawaban Teks" -->
-                {{-- <div>
-                    <button type="button" class="btn btn-primary mt-3" id="toggle-text-answer">Jawaban Teks</button>
-                </div> --}}
-                <div class="card mt-3" id="text-answer">
-                    <div class="card-body">
-                        <p>Jawaban Teks:</p>
-                        <textarea id="{{ $question['id'] }}" name="essay" cols="30" rows="30" class="form-control" style="height:200px" wire:keydown="essay_answers({{ $question['id'] }}, this.value)"></textarea>
+        @elseif($question->type == "Uraian")
+            <!-- Tombol "Jawaban Teks" -->
+            {{-- <div>
+                <button type="button" class="btn btn-primary mt-3" id="toggle-text-answer">Jawaban Teks</button>
+            </div> --}}
+            <div class="card mt-1" id="text-answer">
+                <div class="card-body">
+                    <p>Jawaban Teks:</p>
+                    <input type="text" class="form-control" style="height:200px" wire:model="isiEssay"/>
                     </div>
-                </div>
-                {{-- <button id="my-button" class="btn btn-primary mt-3">Simpan jawaban essay</button> --}}
+            </div>
+            <div class="d-flex justify-content-end">
+                @if ($questions->currentPage() == $questions->lastPage())
+                    <button id="submit" class="btn btn-primary mt-1" wire:click="essay_answers({{ $question['id'] }})">Simpan</button>
+                @else
+                    <button class="btn btn-primary mt-1" wire:click="essay_answers({{ $question['id'] }})">Simpan</button>
                 @endif
             </div>
+        @endif
+    </div>
     @endforeach
 
 
     {{-- @foreach ($selectedAnswers as $item)
-        {{ $item }}
-    @endforeach --}}
-
-    {{-- @foreach ($essayAnswers as $item)
         {{ $item }}
     @endforeach --}}
     
@@ -123,29 +125,4 @@
         Livewire.emit('endTimer');
     }
     }, 1000);
-
-    // // Fungsi untuk menampilkan atau menyembunyikan jawaban teks saat tombol diklik
-    // document.getElementById("toggle-text-answer").addEventListener("click", function() {
-    //         let textAnswer = document.getElementById("text-answer");
-
-    //         if (textAnswer.style.display === "none") {
-    //             textAnswer.style.display = "block";
-    //         } else {
-    //             textAnswer.style.display = "none";
-    //         }
-    //     });
-
-    // document.getElementById('submit').addEventListener('click', function() {
-    //     @this.call('submitAnswers');
-    // })
-    
-        // Add an event listener to the button
-    // document.getElementById('my-button').addEventListener('click', function() {
-    //     let myVariable = document.getElementById("essay").value;
-    //     let hiddenbutton = document.getElementById("hidden-button");
-    //     // Call the Livewire method and pass the JavaScript variable as a parameter
-    //     // Livewire.emit('myAction', myVariable);
-    //     @this.call('SimpanEssay', myVariable);
-    //     hiddenbutton.click();
-    // });
 </script>
