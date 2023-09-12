@@ -36,7 +36,21 @@
                                         <td>{{ $student->name }}</td>
                                         <td>{{ $student->email }}</td>
                                         <td>{{ $student->pivot->score }}</td>
-                                        <td>{{ $student->essay}}</td>
+                                        @php
+                                            $essay = json_decode($student->pivot->essay);
+                                            $values = "";
+                                            $i=0;
+                                            foreach ($essay as $key => $value) {
+                                                if ($i==0) {
+                                                    $values = $value ;
+                                                }
+                                                else{
+                                                    $values = $values . ", " . $value ;
+                                                }
+                                                $i++;
+                                            }
+                                        @endphp
+                                        <td>{{ $values }}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>

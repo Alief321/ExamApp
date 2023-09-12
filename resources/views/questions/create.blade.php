@@ -181,30 +181,29 @@
                                     {{ $message }}
                                 </div>
                                 @enderror
-                            </div>    
+                            </div>
+                            <div class="form-group">
+                                <label>ANSWER</label>
+                                <input type="text" name="answer" value="{{ old('answer') }}" class="form-control" >
+    
+                                @error('answer')
+                                <div class="invalid-feedback" style="display: block">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+    
+                            <div class="form-group">
+                                <label>EXPLANATION</label>
+                                <textarea name="explanation" cols="30" rows="30" class="form-control">{{ old('explanation') }}</textarea>
+                                @error('explanation')
+                                <div class="invalid-feedback" style="display: block">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
                         </div>
                         
-
-                        <div class="form-group">
-                            <label>ANSWER</label>
-                            <input type="text" name="answer" value="{{ old('answer') }}" class="form-control" >
-
-                            @error('answer')
-                            <div class="invalid-feedback" style="display: block">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
-                            <label>EXPLANATION</label>
-                            <textarea name="explanation" cols="30" rows="30" class="form-control">{{ old('explanation') }}</textarea>
-                            @error('explanation')
-                            <div class="invalid-feedback" style="display: block">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
 
                         <button class="btn btn-primary mr-1 btn-submit" type="submit"><i class="fa fa-paper-plane"></i>
                             SIMPAN</button>
