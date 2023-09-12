@@ -66,7 +66,7 @@ class Quiz extends Component
     public function essay_answers($questionId)
     {
         $pertanyaan = Question::findOrFail($questionId);
-        $this->essayAnswers[$questionId] = 'PERTANYAAN: '.$pertanyaan->detail.' JAWABAN: '.$this->isiEssay[$questionId];
+        $this->essayAnswers[$questionId] = 'PERTANYAAN: '.$pertanyaan->detail.','.' JAWABAN: '.$this->isiEssay[$questionId];
     }
 
     public function submitEssayAnswers(){

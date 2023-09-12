@@ -36,21 +36,16 @@
                                         <td>{{ $student->name }}</td>
                                         <td>{{ $student->email }}</td>
                                         <td>{{ $student->pivot->score }}</td>
-                                        @php
-                                            $essay = json_decode($student->pivot->essay);
-                                            $values = "";
-                                            $i=0;
-                                            foreach ($essay as $key => $value) {
-                                                if ($i==0) {
-                                                    $values = $value ;
-                                                }
-                                                else{
-                                                    $values = $values . ", " . $value ;
-                                                }
-                                                $i++;
+                                        <td>@php
+                                            $essay = json_decode($student->pivot->essay,true);
+                                            foreach ($essay as $item) {
+                                                list($pertanyaan, $jawaban) = explode(',', $item);
+
+                                                echo "$pertanyaan<br>";
+                                                echo "$jawaban<br>";
+                                                echo "<br>"; // Baris kosong antara setiap pasangan pertanyaan dan jawaban
                                             }
-                                        @endphp
-                                        <td>{{ $values }}</td>
+                                        @endphp</td>
                                     </tr>
                                 @endforeach
                                 </tbody>
